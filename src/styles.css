@@ -77,7 +77,7 @@ textarea:focus-visible {
   outline-offset: 2px;
 }
 .btn:disabled { opacity: 0.5; cursor: not-allowed; }
-.btn-primary { background: var(--primary); color: #fff; }
+.btn-primary { background: var(--primary); color: #fff; width: 100%; margin-top: 20px; }
 .btn-primary:hover:not(:disabled) { background: var(--primary-hover); }
 .btn-ghost { background: transparent; color: var(--muted); border-color: var(--border); }
 .btn-danger { background: transparent; color: var(--danger); border-color: #efc7d1; }

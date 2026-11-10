@@ -38,12 +38,6 @@ export function HomePage() {
 
   return (
     <div className="home">
-      <div className="page-header">
-        <h1>Calendar</h1>
-        <button className="btn btn-primary" onClick={() => openLog()}>
-          Log new
-        </button>
-      </div>
 
       {error && <p className="error">Could not load activities: {error}</p>}
 
@@ -60,6 +54,13 @@ export function HomePage() {
             navigate(`/activity/${arg.event.id}`);
           }}
         />
+      </div>
+
+
+      <div className="page-header">
+        <button className="btn btn-primary" onClick={() => openLog()}>
+          Log activity
+        </button>
       </div>
 
       <ul className="legend" aria-label="Activity colours">

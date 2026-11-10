@@ -1,6 +1,7 @@
 import { useState, type FormEvent, type ReactNode } from 'react';
 import { ACTIVITY_TYPES, type ActivityType } from '../activityTypes';
 import type { ActivityValues } from '../data/activities';
+import { imageFileToDataUrl } from '../imageUtils';
 
 type Props = {
   type: ActivityType;
@@ -19,9 +20,23 @@ export function DynamicForm({ type, initialValues, header, submitLabel, busy, on
   const [values, setValues] = useState<Record<string, string>>(() =>
     Object.fromEntries(Object.entries(initialValues ?? {}).map(([k, v]) => [k, String(v)])),
   );
+  const [photoBusy, setPhotoBusy] = useState(false);
+  const [photoError, setPhotoError] = useState<string | null>(null);
 
   function setValue(key: string, value: string) {
     setValues((prev) => ({ ...prev, [key]: value }));
+  }
+
+  async function handlePhoto(key: string, file: File) {
+    setPhotoError(null);
+    setPhotoBusy(true);
+    try {
+      setValue(key, await imageFileToDataUrl(file));
+    } catch (err) {
+      setPhotoError(err instanceof Error ? err.message : 'Could not use that photo.');
+    } finally {
+      setPhotoBusy(false);
+    }
   }
 
   function handleSubmit(e: FormEvent) {
@@ -62,6 +77,32 @@ export function DynamicForm({ type, initialValues, header, submitLabel, busy, on
                   </option>
                 ))}
               </select>
+            ) : f.input === 'image' ? (
+              <div className="image-field">
+                {value && (
+                  <div className="image-preview">
+                    <img src={value} alt={f.label} />
+                  </div>
+                )}
+                <input
+                  id={id}
+                  type="file"
+                  accept="image/*"
+                  disabled={photoBusy}
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    e.target.value = '';
+                    if (file) void handlePhoto(f.key, file);
+                  }}
+                />
+                {photoBusy && <p className="muted">Processing photo…</p>}
+                {photoError && <p className="error">{photoError}</p>}
+                {value && (
+                  <button type="button" className="btn btn-ghost" onClick={() => setValue(f.key, '')}>
+                    Remove photo
+                  </button>
+                )}
+              </div>
             ) : (
               <input
                 id={id}
@@ -80,7 +121,7 @@ export function DynamicForm({ type, initialValues, header, submitLabel, busy, on
             Back
           </button>
         )}
-        <button type="submit" className="btn btn-primary" disabled={busy}>
+        <button type="submit" className="btn btn-primary" disabled={busy || photoBusy}>
           {busy ? 'Saving…' : submitLabel}
         </button>
       </div>

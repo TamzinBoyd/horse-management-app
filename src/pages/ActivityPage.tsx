@@ -109,7 +109,15 @@ export function ActivityPage() {
                 return (
                   <div className="summary-row" key={f.key}>
                     <dt>{f.label}</dt>
-                    <dd className={f.input === 'textarea' ? 'pre' : undefined}>{empty ? '—' : String(v)}</dd>
+                    <dd className={f.input === 'textarea' ? 'pre' : undefined}>
+                      {empty ? (
+                        '—'
+                      ) : f.input === 'image' ? (
+                        <img className="summary-photo" src={String(v)} alt={f.label} />
+                      ) : (
+                        String(v)
+                      )}
+                    </dd>
                   </div>
                 );
               })}

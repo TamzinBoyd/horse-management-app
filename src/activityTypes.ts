@@ -4,7 +4,8 @@
 export type FieldDef = {
   key: string;
   label: string;
-  input: 'text' | 'number' | 'textarea' | 'select';
+  /** 'image' stores the photo as a compressed data URL string. */
+  input: 'text' | 'number' | 'textarea' | 'select' | 'image';
   options?: string[];
 };
 
@@ -30,7 +31,7 @@ export type ActivityType =
 
 export const ACTIVITY_TYPES: Record<ActivityType, ActivityTypeDef> = {
   ride: {
-    label: 'Ride',
+    label: 'Exercise',
     color: '#bfe0f5',
     fields: [
       { key: 'field1', label: 'Field 1 (placeholder)', input: 'text' },
@@ -122,6 +123,7 @@ export const ACTIVITY_TYPES: Record<ActivityType, ActivityTypeDef> = {
     color: '#d4f0f0',
     fields: [
       { key: 'field1', label: 'Weight (placeholder)', input: 'number' },
+      { key: 'photo', label: 'Photo', input: 'image' },
       { key: 'notes', label: 'Notes', input: 'textarea' },
     ],
   },

@@ -15,7 +15,18 @@ export type ActivityTypeDef = {
   fields: FieldDef[];
 };
 
-export type ActivityType = 'ride' | 'feed' | 'vet' | 'farrier';
+export type ActivityType =
+  | 'ride'
+  | 'feed'
+  | 'vet'
+  | 'farrier'
+  | 'dentist'
+  | 'worming'
+  | 'saddler'
+  | 'physio'
+  | 'observation'
+  | 'treatment'
+  | 'weight';
 
 export const ACTIVITY_TYPES: Record<ActivityType, ActivityTypeDef> = {
   ride: {
@@ -50,6 +61,67 @@ export const ACTIVITY_TYPES: Record<ActivityType, ActivityTypeDef> = {
     color: '#fbeeb0',
     fields: [
       { key: 'field1', label: 'Field 1 (placeholder)', input: 'select', options: ['Option A', 'Option B'] },
+      { key: 'notes', label: 'Notes', input: 'textarea' },
+    ],
+  },
+  dentist: {
+    label: 'Dentist',
+    color: '#d9ccf2',
+    fields: [
+      { key: 'field1', label: 'Field 1 (placeholder)', input: 'text' },
+      { key: 'field2', label: 'Field 2 (placeholder)', input: 'text' },
+      { key: 'notes', label: 'Notes', input: 'textarea' },
+    ],
+  },
+  worming: {
+    label: 'Worming',
+    color: '#ffd6b0',
+    fields: [
+      { key: 'field1', label: 'Field 1 (placeholder)', input: 'select', options: ['Option A', 'Option B'] },
+      { key: 'field2', label: 'Field 2 (placeholder)', input: 'text' },
+      { key: 'notes', label: 'Notes', input: 'textarea' },
+    ],
+  },
+  saddler: {
+    label: 'Saddler',
+    color: '#b8e6e1',
+    fields: [
+      { key: 'field1', label: 'Field 1 (placeholder)', input: 'text' },
+      { key: 'field2', label: 'Field 2 (placeholder)', input: 'text' },
+      { key: 'notes', label: 'Notes', input: 'textarea' },
+    ],
+  },
+  physio: {
+    label: 'Physio',
+    color: '#e8d3b9',
+    fields: [
+      { key: 'field1', label: 'Field 1 (placeholder)', input: 'text' },
+      { key: 'field2', label: 'Field 2 (placeholder)', input: 'text' },
+      { key: 'notes', label: 'Notes', input: 'textarea' },
+    ],
+  },
+  observation: {
+    label: 'Observation',
+    color: '#dcdcdc',
+    fields: [
+      { key: 'field1', label: 'Field 1 (placeholder)', input: 'text' },
+      { key: 'notes', label: 'Notes', input: 'textarea' },
+    ],
+  },
+  treatment: {
+    label: 'Treatment',
+    color: '#ffb8b8',
+    fields: [
+      { key: 'field1', label: 'Field 1 (placeholder)', input: 'text' },
+      { key: 'field2', label: 'Field 2 (placeholder)', input: 'text' },
+      { key: 'notes', label: 'Notes', input: 'textarea' },
+    ],
+  },
+  weight: {
+    label: 'Weight',
+    color: '#d4f0f0',
+    fields: [
+      { key: 'field1', label: 'Weight (placeholder)', input: 'number' },
       { key: 'notes', label: 'Notes', input: 'textarea' },
     ],
   },

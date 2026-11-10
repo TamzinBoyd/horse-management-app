@@ -45,6 +45,7 @@ export function HomePage() {
         <FullCalendar
           plugins={[dayGridPlugin, interactionPlugin]}
           initialView="dayGridMonth"
+          firstDay={1}
           headerToolbar={{ left: 'prev,next today', center: 'title', right: '' }}
           events={events}
           height="auto"

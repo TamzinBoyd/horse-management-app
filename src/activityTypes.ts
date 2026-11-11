@@ -23,7 +23,6 @@ export type ActivityType =
   | 'farrier'
   | 'dentist'
   | 'worming'
-  | 'saddler'
   | 'physio'
   | 'observation'
   | 'other'
@@ -39,14 +38,14 @@ export const ACTIVITY_TYPES: Record<ActivityType, ActivityTypeDef> = {
       { key: 'durtion', label: 'Duration in mins', input: 'number' },
       { key: 'location', label: 'Location',  input: 'select', options: ['School', 'Field', 'Hack', 'Lane', 'Other']},
        { key: 'focus', label: 'Session focus', input: 'textarea' },
-       { key: 'What went well', label: 'What went well', input: 'textarea' },
-       { key: 'What did not go went well', label: 'Negatives', input: 'textarea' },
+       { key: 'What went well', label: 'What went well', input: 'text' },
+       { key: 'What did not go went well', label: 'Negatives', input: 'text' },
        { key: 'notes', label: 'Notes', input: 'textarea' },
     ],
   },
   feed: {
     label: 'Feed / routine',
-    color: '#cdeccb',
+    color: '#6e816dff',
     fields: [
       { key: 'change', label: 'Change type', input: 'select', options: ['Feed', 'Grazing', 'Hay', 'Routine'] },
       { key: 'notes', label: 'Notes', input: 'textarea' },
@@ -54,7 +53,7 @@ export const ACTIVITY_TYPES: Record<ActivityType, ActivityTypeDef> = {
   },
   vet: {
     label: 'Vet',
-    color: '#f7c9dc',
+    color: '#8d6576ff',
     fields: [
       { key: 'reason', label: 'Reason', input: 'select', options: ['Vaccinations', 'Other'] },
       { key: 'locations', label: 'Location', input: 'select', options: ['Home', 'Vets'] },
@@ -73,7 +72,7 @@ export const ACTIVITY_TYPES: Record<ActivityType, ActivityTypeDef> = {
   },
   dentist: {
     label: 'Dentist',
-    color: '#d9ccf2',
+    color: '#dfb6ddff',
     fields: [
       { key: 'notes', label: 'Notes', input: 'textarea' },
       { key: 'followup', label: 'Follow up', input: 'text' },
@@ -89,15 +88,6 @@ export const ACTIVITY_TYPES: Record<ActivityType, ActivityTypeDef> = {
       { key: 'results', label: 'Results', input: 'text' },
     ],
   },
-  saddler: {
-    label: 'Saddler',
-    color: '#b8e6e1',
-    fields: [
-      { key: 'field1', label: 'Field 1 (placeholder)', input: 'text' },
-      { key: 'field2', label: 'Field 2 (placeholder)', input: 'text' },
-      { key: 'notes', label: 'Notes', input: 'textarea' },
-    ],
-  },
   physio: {
     label: 'Physio',
     color: '#e8d3b9',
@@ -110,7 +100,7 @@ export const ACTIVITY_TYPES: Record<ActivityType, ActivityTypeDef> = {
   },
   observation: {
     label: 'Observation',
-    color: '#dcdcdc',
+    color: '#ac8997ff',
     fields: [
       { key: 'notes', label: 'Notes', input: 'textarea' },
     ],
@@ -119,7 +109,7 @@ export const ACTIVITY_TYPES: Record<ActivityType, ActivityTypeDef> = {
     label: 'Other',
     color: '#ffb8b8',
     fields: [
-      { key: 'type', label: 'Type', input: 'select', options: ['Saddlers', 'clipped', 'lice treatment', 'misc'] },
+      { key: 'type', label: 'Type', input: 'select', options: ['Saddler', 'Clipped', 'Lice treatment', 'Misc'] },
       { key: 'notes', label: 'Notes', input: 'textarea' },
     ],
   },
@@ -134,7 +124,7 @@ export const ACTIVITY_TYPES: Record<ActivityType, ActivityTypeDef> = {
   },
     delivery: {
     label: 'Delivery',
-    color: '#b1eabaff',
+    color: '#bedac2ff',
     fields: [
       { key: 'type', label: 'Type', input: 'select', options: ['Hay', 'Bedding', 'Feed', 'Other'] },
       { key: 'notes', label: 'Notes', input: 'textarea' },
@@ -151,7 +141,6 @@ export const SHARED_ACTIVITY_TYPES: ActivityType[] = [
   'farrier',
   'dentist',
   'worming',
-  'saddler',
   'physio',
   'other',
   'delivery',

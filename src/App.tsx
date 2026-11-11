@@ -6,11 +6,6 @@ import { ActivityPage } from './pages/ActivityPage';
 export default function App() {
   return (
     <BrowserRouter>
-      <header className="app-header">
-        <div className="container">
-          <strong>Horse Management</strong>
-        </div>
-      </header>
       <main className="container">
         {isFirebaseConfigured ? (
           <Routes>

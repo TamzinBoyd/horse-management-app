@@ -143,3 +143,16 @@ export const ACTIVITY_TYPES: Record<ActivityType, ActivityTypeDef> = {
 };
 
 export const ACTIVITY_TYPE_KEYS = Object.keys(ACTIVITY_TYPES) as ActivityType[];
+
+/** Types that usually apply to both horses, so the horse picker defaults to Both. */
+export const SHARED_ACTIVITY_TYPES: ActivityType[] = [
+  'feed',
+  'vet',
+  'farrier',
+  'dentist',
+  'worming',
+  'saddler',
+  'physio',
+  'other',
+  'delivery',
+];

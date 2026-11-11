@@ -9,7 +9,9 @@ import {
   type Activity,
   type ActivityValues,
 } from '../data/activities';
+import { choiceFromHorses, horseLabel, horsesFromChoice, type HorseChoice } from '../horses';
 import { DynamicForm } from '../components/DynamicForm';
+import { HorsePicker } from '../components/HorsePicker';
 
 export function ActivityPage() {
   const { id = '' } = useParams();
@@ -19,6 +21,7 @@ export function ActivityPage() {
   const [activity, setActivity] = useState<Activity | null | undefined>(undefined);
   const [editing, setEditing] = useState(false);
   const [editDate, setEditDate] = useState('');
+  const [editHorse, setEditHorse] = useState<HorseChoice>('both');
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -39,6 +42,7 @@ export function ActivityPage() {
 
   function startEdit() {
     setEditDate(activity!.date);
+    setEditHorse(choiceFromHorses(activity!.horses));
     setEditing(true);
   }
 
@@ -46,7 +50,7 @@ export function ActivityPage() {
     setBusy(true);
     setError(null);
     try {
-      await updateActivity(activity!.id, editDate, values);
+      await updateActivity(activity!.id, editDate, horsesFromChoice(editHorse), values);
       setEditing(false);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Could not save changes.');
@@ -78,7 +82,7 @@ export function ActivityPage() {
       <div className="card">
         <div className="activity-title">
           <span className="type-badge" style={{ background: def.color }}>
-            {def.label}
+            {def.label} · {horseLabel(activity.horses)}
           </span>
           {!editing && <span className="muted">{format(parseISO(activity.date), 'EEEE d MMMM yyyy')}</span>}
         </div>
@@ -94,15 +98,22 @@ export function ActivityPage() {
             onSubmit={handleSave}
             onCancel={() => setEditing(false)}
             header={
-              <div className="field">
-                <label htmlFor="edit-date">Date</label>
-                <input id="edit-date" type="date" value={editDate} onChange={(e) => setEditDate(e.target.value)} />
-              </div>
+              <>
+                <HorsePicker value={editHorse} onChange={setEditHorse} />
+                <div className="field">
+                  <label htmlFor="edit-date">Date</label>
+                  <input id="edit-date" type="date" value={editDate} onChange={(e) => setEditDate(e.target.value)} />
+                </div>
+              </>
             }
           />
         ) : (
           <>
             <dl className="summary">
+              <div className="summary-row">
+                <dt>Horse</dt>
+                <dd>{horseLabel(activity.horses)}</dd>
+              </div>
               {def.fields.map((f) => {
                 const v = activity.data[f.key];
                 const empty = v === undefined || v === '';

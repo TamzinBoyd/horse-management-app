@@ -1,8 +1,15 @@
 import { useEffect, useState } from 'react';
 import { format } from 'date-fns';
-import { ACTIVITY_TYPES, ACTIVITY_TYPE_KEYS, type ActivityType } from '../activityTypes';
+import {
+  ACTIVITY_TYPES,
+  ACTIVITY_TYPE_KEYS,
+  SHARED_ACTIVITY_TYPES,
+  type ActivityType,
+} from '../activityTypes';
 import { addActivity, type ActivityValues } from '../data/activities';
+import { horsesFromChoice, type HorseChoice } from '../horses';
 import { DynamicForm } from './DynamicForm';
+import { HorsePicker } from './HorsePicker';
 
 type Props = {
   /** Pre-filled date (YYYY-MM-DD), e.g. the day clicked on the calendar. */
@@ -12,6 +19,7 @@ type Props = {
 
 export function LogNewModal({ initialDate, onClose }: Props) {
   const [step, setStep] = useState<1 | 2>(1);
+  const [horse, setHorse] = useState<HorseChoice | null>(null);
   const [date, setDate] = useState(() => initialDate ?? format(new Date(), 'yyyy-MM-dd'));
   const [type, setType] = useState<ActivityType | null>(null);
   const [busy, setBusy] = useState(false);
@@ -25,12 +33,18 @@ export function LogNewModal({ initialDate, onClose }: Props) {
     return () => window.removeEventListener('keydown', onKey);
   }, [onClose]);
 
+  function chooseType(k: ActivityType) {
+    setType(k);
+    // Shared types default to Both, unless a horse was already picked.
+    if (horse === null && SHARED_ACTIVITY_TYPES.includes(k)) setHorse('both');
+  }
+
   async function handleSave(values: ActivityValues) {
-    if (!type) return;
+    if (!type || !horse) return;
     setBusy(true);
     setError(null);
     try {
-      await addActivity(date, type, values);
+      await addActivity(date, type, horsesFromChoice(horse), values);
       onClose();
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Could not save activity.');
@@ -56,6 +70,8 @@ export function LogNewModal({ initialDate, onClose }: Props) {
 
         {step === 1 && (
           <div className="step">
+            <HorsePicker value={horse} onChange={setHorse} />
+
             <div className="field">
               <label htmlFor="log-date">Date</label>
               <input id="log-date" type="date" value={date} onChange={(e) => setDate(e.target.value)} />
@@ -71,7 +87,7 @@ export function LogNewModal({ initialDate, onClose }: Props) {
                     className="chip"
                     aria-pressed={type === k}
                     style={{ background: ACTIVITY_TYPES[k].color }}
-                    onClick={() => setType(k)}
+                    onClick={() => chooseType(k)}
                   >
                     {ACTIVITY_TYPES[k].label}
                   </button>
@@ -83,7 +99,7 @@ export function LogNewModal({ initialDate, onClose }: Props) {
               <button
                 type="button"
                 className="btn btn-primary"
-                disabled={!type || !date}
+                disabled={!type || !date || !horse}
                 onClick={() => setStep(2)}
               >
                 Next

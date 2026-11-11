@@ -198,3 +198,8 @@ textarea { resize: vertical; }
   h1 { font-size: 1.35rem; }
   .modal { padding: 16px; }
 }
+
+/* Horse filter and picker */
+.filter-bar { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+.chip.neutral { background: var(--surface); border: 2px solid var(--border); }
+.chip.neutral[aria-pressed='true'] { border-color: var(--primary); }

@@ -11,6 +11,7 @@ import {
 } from 'firebase/firestore';
 import { db } from '../firebase';
 import type { ActivityType } from '../activityTypes';
+import { HORSE_IDS, type HorseId } from '../horses';
 
 export type ActivityValues = Record<string, string | number>;
 
@@ -19,6 +20,8 @@ export type Activity = {
   /** ISO date, YYYY-MM-DD */
   date: string;
   type: ActivityType;
+  /** Which horses this activity is for. Older entries without this field count as both. */
+  horses: HorseId[];
   data: ActivityValues;
 };
 
@@ -31,7 +34,13 @@ function getDb(): Firestore {
 
 function toActivity(snap: DocumentSnapshot): Activity {
   const v = snap.data() ?? {};
-  return { id: snap.id, date: v.date, type: v.type, data: v.data ?? {} };
+  return {
+    id: snap.id,
+    date: v.date,
+    type: v.type,
+    horses: Array.isArray(v.horses) ? v.horses : HORSE_IDS,
+    data: v.data ?? {},
+  };
 }
 
 export function subscribeActivities(
@@ -57,18 +66,30 @@ export function subscribeActivity(
   );
 }
 
-export async function addActivity(date: string, type: ActivityType, data: ActivityValues) {
+export async function addActivity(
+  date: string,
+  type: ActivityType,
+  horses: HorseId[],
+  data: ActivityValues,
+) {
   await addDoc(collection(getDb(), COLLECTION), {
     date,
     type,
+    horses,
     data,
     createdAt: serverTimestamp(),
   });
 }
 
-export async function updateActivity(id: string, date: string, data: ActivityValues) {
+export async function updateActivity(
+  id: string,
+  date: string,
+  horses: HorseId[],
+  data: ActivityValues,
+) {
   await updateDoc(doc(getDb(), COLLECTION, id), {
     date,
+    horses,
     data,
     updatedAt: serverTimestamp(),
   });

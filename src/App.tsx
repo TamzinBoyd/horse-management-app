@@ -1,11 +1,12 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { HashRouter, Route, Routes } from 'react-router-dom';
 import { isFirebaseConfigured } from './firebase';
 import { HomePage } from './pages/HomePage';
 import { ActivityPage } from './pages/ActivityPage';
 
 export default function App() {
   return (
-    <BrowserRouter>
+    // HashRouter keeps routes working on refresh on GitHub Pages (URLs look like /#/activity/abc).
+    <HashRouter>
       <main className="container">
         {isFirebaseConfigured ? (
           <Routes>
@@ -22,6 +23,6 @@ export default function App() {
           </div>
         )}
       </main>
-    </BrowserRouter>
+    </HashRouter>
   );
 }

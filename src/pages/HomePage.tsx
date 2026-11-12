@@ -55,7 +55,7 @@ export function HomePage() {
           <button
             type="button"
             key={f}
-            className="chip neutral"
+            className="chip neutral horse-picker"
             aria-pressed={filter === f}
             onClick={() => setFilter(f)}
           >

@@ -79,7 +79,7 @@ export function LogNewModal({ initialDate, onClose }: Props) {
 
             <fieldset className="field">
               <legend>Activity type</legend>
-              <div className="chip-group">
+              <div className="chip-group activity-modal">
                 {ACTIVITY_TYPE_KEYS.map((k) => (
                   <button
                     type="button"

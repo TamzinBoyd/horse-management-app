@@ -171,6 +171,7 @@ textarea { resize: vertical; }
   border-radius: 999px;
   padding: 8px 16px;
   cursor: pointer;
+  width: 100%;
 }
 .chip[aria-pressed='true'] { background-color: var(--primary); border: 2px solid rgb(110, 105, 110) }
 
@@ -197,7 +198,7 @@ textarea { resize: vertical; }
 }
 
 /* Horse filter and picker */
-.filter-bar { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+.filter-bar { display: flex; justify-content: space-between;  gap: 8px; margin-bottom: 12px; }
 .chip.neutral { background: var(--primary); border: 2px solid var(--border); }
 .chip.neutral[aria-pressed='true'] { background-color: var(--bg); color: var(--surface) }
 
